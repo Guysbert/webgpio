@@ -1,0 +1,40 @@
+<!doctype html>
+<title>LED Setter</title>
+<head>
+    <script type="text/javascript" src="../static/jquery-2.1.3.min.js"></script>
+</head>
+<body>
+    <p>
+    <button id="on">On</button>    
+    <button id="off">Off</button>
+    </p>
+    <p>
+    Blinking frequency:
+    <input type="range" id="frequencyrange" name="frequency" min="100" max= "10000"></input>
+    <input type="text" id="frequencyValue" value=""></input>
+    <button id="setfrequency">Set frequency</button>
+
+    </p>
+
+
+
+
+    <script tpye="text/javascript">
+
+        $('#frequencyrange').change(function(){
+            $('#frequencyValue').val($('#frequencyrange').val());
+        });
+
+        $('#setfrequency').change(function(){
+            $.post("setfrequency", {value: $('#frequencyValue').val() })
+        });
+
+        $('#on').click(function(){
+            $.get("on");
+        });
+
+        $('#off').click(function(){
+            $.get("off");
+        });
+    </script>
+</body>
