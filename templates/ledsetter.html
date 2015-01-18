@@ -9,8 +9,9 @@
     <button id="off">Off</button>
     </p>
     <p>
-    Blinking frequency:
-    <input type="range" id="frequencyrange" name="frequency" min="100" max= "10000"></input>
+    Blinking frequency:<br />
+    <input type="range" id="frequencyrange" name="frequency" min="100" 
+    max= "10000" value="1000" style="width:1000px"></input><br />
     <input type="text" id="frequencyValue" value=""></input>
     <button id="setfrequency">Set frequency</button>
 
@@ -21,12 +22,25 @@
 
     <script tpye="text/javascript">
 
-        $('#frequencyrange').change(function(){
+        $('#frequencyrange').mousemove(function(){
             $('#frequencyValue').val($('#frequencyrange').val());
         });
 
-        $('#setfrequency').change(function(){
-            $.post("setfrequency", {value: $('#frequencyValue').val() })
+        $('#frequencyValue').keyup(function(){
+            $('#frequencyrange').val($('#frequencyValue').val());
+        });
+
+        $('#setfrequency').click(function(){
+            var $value = $('#frequencyrange').val();
+            $.ajax({
+                type: "POST",
+                url: "setfrequency",
+                data: "{ \"value\" : " + $value + " }",
+                dataType: "json",
+                contentType: "application/json",
+                success: function(json){
+                }
+            });
         });
 
         $('#on').click(function(){

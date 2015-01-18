@@ -10,7 +10,6 @@ app = Flask(__name__)
 
 blink = False
 frequency = 1.0
-threadstarted = False
 thread = Thread()
 
 @app.route("/")
@@ -35,32 +34,27 @@ def off():
 def setfrequency():
     global blink
     global frequency
-    global threadstarted
-    global thread
     blink = False
-    if threadstarted:
-        thread.join()
     thread = Thread(target = blinkled)
     json = request.get_json()
-    frequency = json['value'] / 1000
+    frequency = float(json['value']) / 1000.0
+    print(json)
     thread.start()
     return "ok"
 
 def blinkled():
     global blink
     global frequency
-    global thread_started
     blink = True
     threadstarted = True
     print("repeat")
     while blink:
-        print(blink)
-        print(off)
-        GPIO.output(3, GPIO.LOW)
-        time.sleep(frequency)
-        print(on)
-        GPIO.output(3, GPIO.HIGH)
-        time.sleep(frequency)
+        if blink:
+            GPIO.output(3, GPIO.LOW)
+            time.sleep(frequency)
+        if blink:
+            GPIO.output(3, GPIO.HIGH)
+            time.sleep(frequency)
     threadstarted = False
 
 
